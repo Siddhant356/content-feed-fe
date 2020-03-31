@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
+class ContentFeed extends React.Component{
+  constructor(){
+    super();
+    this.state = {
+      'items':[]
+    }
+  }
+  componentDidMount() {
+    this.getItems();
+  }
+  getItems(){
+    fetch('http://127.0.0.1:8000/api/item/')
+    .then(results => results.json())
+    .then(results => this.setState({'items': results}));
+  }
+  render() {
+      return (
+        <ul>
+        {
+          this.state.items.map(function(item, index){
+            return (<div>
+              <h1>{item.title}</h1>
+              <p>{item.description}</p>
+            </div>
+          )
+          })
+        }
+        </ul>
+      );
+  }
+}
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ContentFeed />,
   document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+)
