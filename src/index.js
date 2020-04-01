@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import {
+  Row, Col, Card, CardBody, CardText, CardHeader,CardImg
+} from 'reactstrap';
+import './index.css'
 class ContentFeed extends React.Component{
   constructor(){
     super();
@@ -21,10 +25,9 @@ class ContentFeed extends React.Component{
         <ul>
         {
           this.state.items.map(function(item, index){
-            return (<div>
-              <h1>{item.title}</h1>
-              <p>{item.description}</p>
-            </div>
+            return (
+              <ContentItem item={item} key={index} />
+
           )
           })
         }
@@ -32,6 +35,26 @@ class ContentFeed extends React.Component{
       );
   }
 }
+const ContentItem = ({ item }) => (
+  <Row className="ContentItem">
+    <Col xs="3" />
+    <Col xs="12" sm="6">
+      <Card>
+        <CardHeader>
+          {item.title}
+          </CardHeader>
+        <CardImg top width="100%" src={item.image}></CardImg>
+        <CardBody>
+          <CardText>
+            {item.description}
+          </CardText>
+        </CardBody>
+      </Card>
+    </Col>
+  </Row>
+)
+
+
 ReactDOM.render(
   <ContentFeed />,
   document.getElementById('root')
